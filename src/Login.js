@@ -1,3 +1,4 @@
+// Login.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,33 +7,49 @@ import PropTypes from 'prop-types';
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); // State for error messages
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+        const response = await fetch('http://localhost:3000/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
 
-      const data = await response.json();
-      if (response.ok) {
-        console.log('Login successful:', data);
-        onLogin(); // Call the onLogin function passed from App.js
-        navigate('/'); // Redirect to the home page
-      } else {
-        console.error('Login failed:', data.error);
-        setErrorMessage(data.error || 'Login failed'); // Set error message for display
-      }
+        if (!response.ok) {
+            const errorData = await response.json(); 
+            setErrorMessage(errorData.error || 'Login failed');
+            return;
+        }
+
+        const data = await response.json();
+        if (data.token) {
+            console.log('Login successful:', data);
+            onLogin(data.user);
+            localStorage.setItem('user', JSON.stringify(data.user));
+
+            if (data.user.role === 'Donor') {
+                navigate('/donor-dashboard');
+            } else if (data.user.role === 'Volunteer') {
+                navigate('/volunteer-dashboard');
+            } else if (data.user.role === 'Admin') {
+                navigate('/admin-dashboard');
+            } else {
+                navigate('/');
+            }
+        } else {
+            setErrorMessage('Login failed: No user data returned');
+        }
     } catch (error) {
-      console.error('Error during login:', error);
-      setErrorMessage('An error occurred. Please try again.'); // Set generic error message
+        console.error('Error during login:', error);
+        setErrorMessage('An error occurred. Please try again.');
     }
   };
+
 
   return (
     <Container>
@@ -52,7 +69,7 @@ const Login = ({ onLogin }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>} {/* Display error message if any */}
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         <Button type="submit">Login</Button>
       </Form>
       <SignupLink>
@@ -67,7 +84,7 @@ Login.propTypes = {
   onLogin: PropTypes.func.isRequired,
 };
 
-// Styled Components
+// Styled Components (same as before)
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -89,7 +106,6 @@ const Form = styled.form`
 
 const Input = styled.input`
   margin-bottom: 10px;
-  text-transform: none;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -97,34 +113,19 @@ const Input = styled.input`
 
 const Button = styled.button`
   padding: 10px;
-  background-color: #007bff;
+  background-color: rgb(98, 84, 243);
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
 `;
 
-const SignupLink = styled.div`
+const SignupLink = styled.p`
   margin-top: 20px;
-  text-align: center;
-
-  a {
-    color: #007bff;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
 `;
 
-const ErrorMessage = styled.div`
+const ErrorMessage = styled.p`
   color: red;
-  margin-bottom: 10px;
 `;
 
 export default Login;

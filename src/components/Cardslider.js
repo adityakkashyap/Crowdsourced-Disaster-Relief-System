@@ -2,23 +2,31 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const CardSlider = () => {
-  const [donations, setDonations] = useState([]); // Change to donations
+  const [donations, setDonations] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Fetch donations data from the API
+  // Fetch donation details with disaster location from the API
   useEffect(() => {
     const fetchDonations = async () => {
+      console.log('Fetching donation details...');
       try {
-        const response = await fetch('http://localhost:3000/api/donations'); // Adjusted URL to donations
-        const data = await response.json();
+        const response = await fetch('http://localhost:3000/api/getDonationDetails');
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json(); // directly read as JSON
+        console.log('Fetched data:', data);
         setDonations(data);
       } catch (error) {
-        console.error('Error fetching donations:', error);
+        console.error('Error fetching donation details:', error);
       }
     };
-
+    
+    
     fetchDonations();
-  }, []); // Empty dependency array means this runs once when the component mounts
+  }, []);
+  
 
   const nextCard = () => {
     setCurrentIndex((prevIndex) =>
@@ -38,19 +46,19 @@ const CardSlider = () => {
       <SliderWrapper>
         <ArrowButton onClick={prevCard}>&lt;</ArrowButton>
         <SliderContainer>
-          {donations.slice(currentIndex, currentIndex + 3).map((donation) => (
-            <Card key={donation.id}>
-              {/* <Image src={donation.imageUrl} alt={donation.donor_id} /> You may need to adjust this if your donation data doesn't include an image */}
+        {Array.isArray(donations) && donations.slice(currentIndex, currentIndex + 3).map((donation) => (
+            <Card key={donation.donation_id}>
               <CardContent>
                 <Title>Donor ID: {donation.donor_id}</Title>
                 <p>Amount: ${donation.amount}</p>
                 <Info>
-                  <p>Donation ID: {donation.id}</p>
-                  <p>Date: {donation.date}</p> {/* Adjust based on your donation data structure */}
+                  <p>Location: {donation.location}</p>
+                  <p>Severity: {donation.severity}</p>
+                  <p>Description: {donation.description}</p>
                 </Info>
               </CardContent>
             </Card>
-          ))}
+          ))} 
         </SliderContainer>
         <ArrowButton onClick={nextCard}>&gt;</ArrowButton>
       </SliderWrapper>
@@ -59,6 +67,7 @@ const CardSlider = () => {
 };
 
 export default CardSlider;
+
 
 // Styled Components remain unchanged
 const Container = styled.div`
