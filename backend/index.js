@@ -4,6 +4,9 @@ const cors = require('cors');
 const authRoutes = require('./authRoutes');
 const donationRoutes = require('./donationRoutes');
 const getDonationDetails = require('./getDonationDetails');
+const donationGateway = require('./donationGateway');
+const reliefCampRoutes = require('./reliefCampRoutes');
+
 
 const app = express();
 app.use(cors());
@@ -28,7 +31,8 @@ db.getConnection()
     app.use('/auth', authRoutes(db));
     app.use('/api', donationRoutes(db));
     app.use('/api', getDonationDetails(db));
-    
+    app.use('/api', donationGateway(db));
+    app.use('/api', reliefCampRoutes(db));
 
     const PORT = 3000;
     app.listen(PORT, () => {

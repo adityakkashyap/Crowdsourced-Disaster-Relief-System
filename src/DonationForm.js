@@ -39,7 +39,7 @@ const DonationForm = () => {
     };
 
     try {
-      await axios.post('http://localhost:3000/api/donations', donationData);
+      await axios.post('http://localhost:3000/api/submitdonations', donationData);
       alert('Donation submitted successfully!');
       setDonorId('');
       setDisasterId('');

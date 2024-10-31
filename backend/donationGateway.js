@@ -19,7 +19,7 @@ const donationGateway = (db) => {
     });
 
     // Route to submit a donation
-    router.post('/donations', (req, res) => {
+    router.post('/submitdonations', (req, res) => {
         const { donor_id, disaster_id, amount, resource_donated } = req.body;
         const query = 'INSERT INTO Donation (donor_id, disaster_id, amount, resource_donated) VALUES (?, ?, ?, ?)';
         

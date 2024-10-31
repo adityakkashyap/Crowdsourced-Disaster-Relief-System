@@ -18,6 +18,7 @@ import Login from './Login';
 import Signup from "./Signup";
 import { ThemeProvider } from 'styled-components'; 
 import DonationForm from './DonationForm'; // Import DonationForm
+import ReliefCamp from "./ReliefCamp";
 
 
 // Define your theme
@@ -81,7 +82,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup />} />
-
+          <Route path="/ReliefCamp" element={isLoggedIn ? <ReliefCamp /> : <Navigate to="/login" />} />
           {/* Public Routes */}
           <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
           <Route path="/about" element={isLoggedIn ? <About /> : <Navigate to="/login" />} />
