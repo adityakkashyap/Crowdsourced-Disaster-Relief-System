@@ -18,6 +18,8 @@ import Signup from "./Signup";
 import { ThemeProvider } from 'styled-components'; 
 import DonationForm from './DonationForm';
 import ReliefCamp from "./ReliefCamp";
+import Profile from "./Profile";
+
 
 const theme = {
   colors: {
@@ -80,7 +82,7 @@ const App = () => {
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/ReliefCamp" element={isLoggedIn ? <ReliefCamp /> : <Navigate to="/login" />} />
-
+          <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
           {/* Public Routes */}
           <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
           <Route path="/about" element={isLoggedIn ? <About /> : <Navigate to="/login" />} />

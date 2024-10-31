@@ -105,6 +105,7 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
+  text-transform: none;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ccc;

@@ -167,7 +167,7 @@ const Nav = () => {
         <ul className="navbar-lists">
           <li>
             <NavLink
-              to="/"
+              to="/donor-dashboard"
               className="navbar-link "
               onClick={() => setMenuIcon(false)}>
               Home
@@ -198,10 +198,10 @@ const Nav = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/cart" className="navbar-link cart-trolley--link">
+            <NavLink to="/Profile" className="navbar-link cart-trolley--link">
               <LiaHandsHelpingSolid className="cart-trolley" />
-              <span className="cart-total--item"> 0 </span>
             </NavLink>
+            
           </li>
         </ul>
 
