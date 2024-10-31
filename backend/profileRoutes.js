@@ -75,6 +75,29 @@ module.exports = (db) => {
     }
   });
 
+  // Assuming this is part of your existing router code
+
+  // Get user donations
+  router.get('/profile/:id/donations', async (req, res) => {
+    try {
+      const userId = req.params.id;
+      console.log(`Fetching donations for user ID: ${userId}`); // Debug statement
+
+      const [donations] = await db.query("SELECT * FROM Donation WHERE donor_id = ?", [userId]);
+      console.log("Query result for donations:", donations); // Debug statement
+
+      if (donations.length === 0) {
+        console.warn(`No donations found for user ID: ${userId}`); // Debug statement
+        return res.status(404).json({ message: "No donations found" });
+      }
+
+      res.json(donations);
+    } catch (error) {
+      console.error("Error fetching user donations:", error);
+      res.status(500).json({ error: "Database error" });
+    }
+    });
+
 
   return router;
 };

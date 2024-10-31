@@ -25,6 +25,10 @@ const Profile = () => {
         const profileResponse = await axios.get(`http://localhost:3000/api/profile/${id}`);
         setProfile(profileResponse.data);
         setFormData(profileResponse.data);
+
+        // Fetch donations associated with the user using the correct endpoint
+        const donationsResponse = await axios.get(`http://localhost:3000/api/profile/${id}/donations`);
+        setDonations(donationsResponse.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
         alert("Failed to fetch profile. Please check your connection and try again.");
@@ -96,6 +100,22 @@ const Profile = () => {
           <button type="button" onClick={handleDelete}>Delete Profile</button>
         </div>
       </form>
+
+      {/* Donations Section */}
+      <div className="donations-section">
+        <h3>Your Donations</h3>
+        {donations.length === 0 ? (
+          <p>No donations found.</p>
+        ) : (
+          <ul>
+            {donations.map((donation) => (
+              <li key={donation.id}>
+                {donation.amount} on {new Date(donation.date).toLocaleDateString()}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <style jsx>{`
         .profile-container {
