@@ -25,7 +25,7 @@ const ReliefCamps = () => {
       {error && <p style={styles.errorMessage}>{error}</p>}
       {reliefCamps.map((camp) => (
         <div key={camp.camp_id} style={styles.campCard}>
-          <h3 style={styles.campTitle}>{camp.location}</h3>
+          <h1 style={styles.campTitle}>{camp.location}</h1>
           <p>Capacity: {camp.capacity}</p>
           <p>Current Occupancy: {camp.current_occupancy}</p>
           <h4 style={styles.resourcesHeading}>Resources Available:</h4>

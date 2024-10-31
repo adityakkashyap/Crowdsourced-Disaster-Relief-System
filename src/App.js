@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import About from "./About";
@@ -17,11 +16,9 @@ import Footer from "./components/Footer";
 import Login from './Login';
 import Signup from "./Signup";
 import { ThemeProvider } from 'styled-components'; 
-import DonationForm from './DonationForm'; // Import DonationForm
+import DonationForm from './DonationForm';
 import ReliefCamp from "./ReliefCamp";
 
-
-// Define your theme
 const theme = {
   colors: {
     heading: "rgb(24 24 29)",
@@ -45,13 +42,27 @@ const theme = {
 };
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('user')); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [role, setRole] = useState(null);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setIsLoggedIn(true);
+        setRole(parsedUser.role);
+      } catch (error) {
+        console.error("Error parsing user from localStorage:", error);
+        setIsLoggedIn(false);
+      }
+    }
+  }, []);
+
   const handleLogin = (user) => {
-    localStorage.setItem('user', JSON.stringify(user)); 
-    setRole(user.role); 
-    setIsLoggedIn(true); 
+    localStorage.setItem('user', JSON.stringify(user));
+    setRole(user.role);
+    setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
@@ -59,20 +70,6 @@ const App = () => {
     setIsLoggedIn(false);
     setRole(null);
   };
-
-  useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        const parsedUser = JSON.parse(user);
-        handleLogin(parsedUser); 
-      } catch (error) {
-        console.error("Error parsing user from localStorage:", error);
-      }
-    } else {
-      setIsLoggedIn(false); // Explicitly set to false if no user is found
-    }
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -83,6 +80,7 @@ const App = () => {
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/ReliefCamp" element={isLoggedIn ? <ReliefCamp /> : <Navigate to="/login" />} />
+
           {/* Public Routes */}
           <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
           <Route path="/about" element={isLoggedIn ? <About /> : <Navigate to="/login" />} />
@@ -114,9 +112,8 @@ const App = () => {
         </Routes>
         <Footer />
       </Router>
-    </ThemeProvider> 
+    </ThemeProvider>
   );
 };
-
 
 export default App;

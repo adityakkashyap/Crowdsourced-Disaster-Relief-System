@@ -10,14 +10,9 @@ const Home = () => {
   
   return(
     <>
-
     <HeroSection />;
     <CardSlider />
-   
-    
-
     </>
-
   ) 
   
 }
