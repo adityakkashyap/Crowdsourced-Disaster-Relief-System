@@ -7,6 +7,8 @@ const getDonationDetails = require('./getDonationDetails');
 const donationGateway = require('./donationGateway');
 const reliefCampRoutes = require('./reliefCampRoutes');
 const profileRoutes = require('./profileRoutes');
+const volunteerTaskRoutes = require('./volunteerTaskRoutes');
+const disasterReportRoutes = require('./disasterReportRoutes');
 
 
 const app = express();
@@ -35,6 +37,8 @@ db.getConnection()
     app.use('/api', donationGateway(db));
     app.use('/api', reliefCampRoutes(db));
     app.use('/api', profileRoutes(db));
+    app.use('/api', volunteerTaskRoutes(db));
+    app.use('/api', disasterReportRoutes(db));
 
 
     const PORT = 3000;

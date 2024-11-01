@@ -17,7 +17,7 @@ const Footer = () => {
 
             <div>
               <Button className="btn hireme-btn">
-                <NavLink to="/contact"> Join Now</NavLink>
+                <NavLink to="/Signup"> Join Now</NavLink>
               </Button>
             </div>
           </div>

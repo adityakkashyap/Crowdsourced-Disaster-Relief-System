@@ -49,8 +49,9 @@ const ReliefCamps = () => {
 const styles = {
   container: {
     maxWidth: '800px',
-    margin: '0 auto',
+    margin: 'auto',
     padding: '20px',
+    marginTop: '50px',
   },
   heading: {
     textAlign: 'center',

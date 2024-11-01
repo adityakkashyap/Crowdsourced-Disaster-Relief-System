@@ -7,7 +7,7 @@ const About = () => {
       <p style={styles.paragraph}>
         The Crowdsourced Disaster Management System is a platform designed to support and streamline relief efforts during natural disasters. This system facilitates real-time reporting, resource management, and relief operations by involving the community, donors, volunteers, and local authorities. Key features include the management of disaster reports, donations, relief camps, resources, SOS alerts, and volunteer tasks. By leveraging a collaborative approach, this system enhances response speed and effectiveness, ensuring that help reaches affected areas promptly.
       </p>
-      
+
       <h3 style={styles.subHeader}>Key Features</h3>
       <ul style={styles.list}>
         <li style={styles.listItem}>
@@ -37,6 +37,7 @@ const About = () => {
         <li style={styles.listItem}>
           <strong>Volunteer Task Management:</strong> Volunteers play a crucial role in managing tasks within relief camps. Tasks, which are assigned to volunteers based on availability, include details like descriptions, statuses, and timelines, ensuring smooth operations at each relief location.
         </li>
+        
       </ul>
       <p style={styles.paragraph}>
         This platform enables a unified, crowdsourced response to disasters, enhancing efficiency and allowing communities to support each other in times of need.
@@ -78,7 +79,7 @@ const styles = {
   listItem: {
     color: '#666',
     marginBottom: '10px',
-    fontsize: '50px',
+    fontSize: '15px', // Adjusted font size
   },
 };
 

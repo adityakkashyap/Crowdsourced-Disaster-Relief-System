@@ -19,7 +19,8 @@ import { ThemeProvider } from 'styled-components';
 import DonationForm from './DonationForm';
 import ReliefCamp from "./ReliefCamp";
 import Profile from "./Profile";
-
+import SOSAlertList from "./SOSAlterList";
+import DisasterReportForm from "./disasterReportForm";
 
 const theme = {
   colors: {
@@ -86,6 +87,8 @@ const App = () => {
           {/* Public Routes */}
           <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
           <Route path="/about" element={isLoggedIn ? <About /> : <Navigate to="/login" />} />
+          <Route path="/SOSAlertList" element={isLoggedIn ? <SOSAlertList /> : <Navigate to="/login" />} />
+          <Route path="/DisasterReportForm" element={isLoggedIn ? <DisasterReportForm /> : <Navigate to="/login" />} />
 
           {/* Donor and Volunteer Routes */}
           {role === 'Donor' && (
