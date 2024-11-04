@@ -8,11 +8,12 @@ const DonationForm = () => {
   const [amount, setAmount] = useState('');
   const [resourceDonated, setResourceDonated] = useState('');
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState(''); // New success message state
 
   useEffect(() => {
     const fetchDisasters = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/getdonations');
+        const response = await axios.get('http://localhost:3000/api/disasters');
         setDisasters(response.data);
       } catch (err) {
         console.error('Error fetching disasters:', err.response ? err.response.data : err.message);
@@ -24,23 +25,27 @@ const DonationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError(''); // Reset any previous errors
+    setSuccessMessage(''); // Reset previous success message
 
+    // Validate required fields
     if (!donorId || !disasterId || !amount) {
       setError('Please fill in all required fields.');
       return;
     }
 
+    // Prepare the data to send
     const donationData = {
       donor_id: donorId,
       disaster_id: disasterId,
       amount: parseFloat(amount),
-      resourceDonated,
+      resource_donated: resourceDonated,
     };
 
     try {
       await axios.post('http://localhost:3000/api/submitdonations', donationData);
-      alert('Donation submitted successfully!');
+      setSuccessMessage('Donation submitted successfully!'); // Show success message
+      // Reset the form fields
       setDonorId('');
       setDisasterId('');
       setAmount('');
@@ -55,6 +60,7 @@ const DonationForm = () => {
     <div style={styles.container}>
       <h2 style={styles.heading}>Make a Donation</h2>
       {error && <p style={styles.errorMessage}>{error}</p>}
+      {successMessage && <p style={styles.successMessage}>{successMessage}</p>} {/* Display success message */}
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
@@ -114,6 +120,12 @@ const styles = {
   },
   errorMessage: {
     color: '#d9534f',
+    fontSize: '0.9rem',
+    marginBottom: '15px',
+    textAlign: 'center',
+  },
+  successMessage: { // Style for success message
+    color: '#5cb85c',
     fontSize: '0.9rem',
     marginBottom: '15px',
     textAlign: 'center',

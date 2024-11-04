@@ -9,6 +9,7 @@ const reliefCampRoutes = require('./reliefCampRoutes');
 const profileRoutes = require('./profileRoutes');
 const volunteerTaskRoutes = require('./volunteerTaskRoutes');
 const disasterReportRoutes = require('./disasterReportRoutes');
+const campVolunteerRoutes = require('./campVolunteerRoutes'); // Import the new route
 
 
 const app = express();
@@ -39,7 +40,7 @@ db.getConnection()
     app.use('/api', profileRoutes(db));
     app.use('/api', volunteerTaskRoutes(db));
     app.use('/api', disasterReportRoutes(db));
-
+    app.use('/api', campVolunteerRoutes(db)); 
 
     const PORT = 3000;
     app.listen(PORT, () => {

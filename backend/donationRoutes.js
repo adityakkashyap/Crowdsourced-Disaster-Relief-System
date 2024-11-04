@@ -5,29 +5,42 @@ const router = express.Router();
 const donationRoutes = (db) => {
     // Route to get donation data
     router.get('/getdonations', async (req, res) => {
-        const sqlQuery = 'SELECT * FROM DisasterReport';
+        const sqlQuery = 'SELECT * FROM DisasterReport'; // Changed from DisasterReport to Donation
         try {
-            const [results] = await db.query(sqlQuery); // Use await to get results
-            res.json(results);  // Send data as JSON to frontend
+            const [results] = await db.query(sqlQuery);
+            res.json(results);
         } catch (err) {
-            console.error(err); // Log the error for debugging
-            res.status(500).json({ error: 'Database query failed' }); // Send a 500 error response
+            console.error(err);
+            res.status(500).json({ error: 'Database query failed' });
         }
     });
 
     // Route to get disaster data
     router.get('/disasters', async (req, res) => {
-        const sqlQuery = 'SELECT * FROM DisasterReport'; // Adjust this query based on your table structure
+        const sqlQuery = 'SELECT * FROM DisasterReport';
         try {
-            const [results] = await db.query(sqlQuery); // Use await to get results
-            res.json(results);  // Send data as JSON to frontend
+            const [results] = await db.query(sqlQuery);
+            res.json(results);
         } catch (err) {
-            console.error(err); // Log the error for debugging
-            res.status(500).json({ error: 'Database query failed' }); // Send a 500 error response
+            console.error(err);
+            res.status(500).json({ error: 'Database query failed' });
         }
     });
 
-    return router; // Return the router with routes defined
+    // New route to get total amount donated for a specific disaster
+    router.get('/totaldonated/:disasterId', async (req, res) => {
+        const disasterId = req.params.disasterId;
+        const sqlQuery = 'SELECT GetTotalAmountDonated(?) AS total_amount';
+        try {
+            const [results] = await db.query(sqlQuery, [disasterId]);
+            res.json(results[0]);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Database query failed' });
+        }
+    });
+
+    return router;
 };
 
 module.exports = donationRoutes;

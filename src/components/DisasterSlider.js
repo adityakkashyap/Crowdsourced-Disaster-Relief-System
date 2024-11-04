@@ -46,7 +46,7 @@ const DisasterSlider = () => {
                 <p>Severity: {disaster.severity}</p>
                 <Info>
                   <p>ID: {disaster.id}</p>
-                  <p>Date: {disaster.date}</p>
+                  <p>Date: {disaster.timestamp}</p>
                   <p>Description: {disaster.description}</p>
                 </Info>
               </CardContent>

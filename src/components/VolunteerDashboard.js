@@ -66,6 +66,7 @@ const VolunteerTaskDashboard = () => {
     const volunteerId = storedUser ? JSON.parse(storedUser).id : null;
     const [assignedTasks, setAssignedTasks] = useState([]);
     const [allTasks, setAllTasks] = useState([]);
+    const [volunteerCounts, setVolunteerCounts] = useState([]);
 
     useEffect(() => {
         const fetchAssignedTasks = async () => {
@@ -86,9 +87,19 @@ const VolunteerTaskDashboard = () => {
             }
         };
 
+        const fetchVolunteerCounts = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/api/camp-volunteer-count');
+                setVolunteerCounts(response.data);
+            } catch (error) {
+                console.error('Error fetching volunteer counts per camp:', error);
+            }
+        };
+
         if (volunteerId) {
             fetchAssignedTasks();
             fetchAllTasks();
+            fetchVolunteerCounts();
         } else {
             console.error('No volunteer ID found in local storage');
         }
@@ -97,9 +108,9 @@ const VolunteerTaskDashboard = () => {
     const handleReportCompletion = async (taskId) => {
         try {
             await axios.put(`http://localhost:3000/api/volunteer/task/${taskId}`, { status: 'completed' });
-            setAssignedTasks((prevTasks) => prevTasks.map(task => 
-                task.id === taskId ? { ...task, status: 'completed' } : task
-            ));
+            setAssignedTasks((prevTasks) =>
+                prevTasks.map(task => task.id === taskId ? { ...task, status: 'completed' } : task)
+            );
         } catch (error) {
             console.error('Error updating task status:', error);
         }
@@ -108,7 +119,17 @@ const VolunteerTaskDashboard = () => {
     return (
         <Container>
             <Title>Volunteer Dashboard</Title>
-            
+
+            <Subtitle>Volunteer Count Per Camp</Subtitle>
+            <TaskList>
+                {volunteerCounts.map(camp => (
+                    <TaskItem key={camp.camp_id}>
+                        <h3>Camp ID: {camp.camp_id}</h3>
+                        <p>Volunteer Count: {camp.volunteer_count}</p>
+                    </TaskItem>
+                ))}
+            </TaskList>
+
             <Subtitle>Your Assigned Tasks</Subtitle>
             <TaskList>
                 {assignedTasks.map(task => (
