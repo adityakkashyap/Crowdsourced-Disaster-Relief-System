@@ -1,3 +1,3 @@
 The Crowdsourced Disaster Management System is a project that enhances disaster response through community involvement and data integration. It allows users to report disasters with real-time data on location, severity, and details, facilitating immediate prioritization and response. Donors can contribute funds and resources, while relief camps are managed for capacity and resource availability, ensuring efficient support for affected individuals. Users can send SOS alerts for emergency assistance, and volunteers are assigned tasks within camps, streamlining coordination. This system enables transparent resource tracking, responsive disaster relief, and collaborative engagement among donors, volunteers, and communities, strengthening overall resilience during disasters.
 
-We used React for frontend, Node and exress backend, MySQL for the database.
+Tech-Stack: React for frontend, Node and exress backend, MySQL for the database.
